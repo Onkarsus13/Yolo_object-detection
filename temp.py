@@ -44,6 +44,10 @@ for output in layeroutputs:
             confidences.append((float(confidence)))
             class_ids.append(class_id)
 
+#In case if you want to print out how many objects have been detected,
+number_objects_detected = len(boxes)
+print("Total number of objects detected is:", len(boxes))
+
 indexes = cv2.dnn.NMSBoxes(boxes , confidences ,0.5 ,0.4)
 font  = cv2.FONT_HERSHEY_PLAIN
 colors = np.random.uniform(0,255 , size =(len(boxes) , 3))
@@ -56,7 +60,9 @@ for i in indexes.flatten():
     confidence = str(round(confidences[i],2))
     color = colors[i]
     cv2.rectangle(img , (x,y) , (x+w , y+h) , color ,2 )
-    cv2.putText(img ,label + "" +confidence  , (x,y+20),font , 2,(255 ,255,255) ,2)
+    #cv2.putText(img ,label + "" +confidence  , (x,y+20),font , 2,(255 ,255,255) ,2)
+    #You can have different color and label for different objects detected using below line
+    cv2.putText(img ,label + "" + confidence  , (x,y+20), font , 2, color ,2)
 
 cv2.imshow('Image' , img)
 cv2.waitKey(0)
